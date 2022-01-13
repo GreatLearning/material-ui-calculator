@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calculator from '../src';
+import Calculator from './src';
 import Button from '@material-ui/core/Button';
 import debug from 'debug';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,14 +11,14 @@ import { grey } from '@material-ui/core/colors';
 
 const log = debug('@pie-framework:demo');
 
-const Github = withStyles(theme => ({
+const Github = withStyles((theme) => ({
   holder: {
-    paddingTop: theme.spacing.unit * 2
+    paddingTop: theme.spacing.unit * 2,
   },
   github: {
     height: '24px',
     fill: grey[700],
-  }
+  },
 }))(({ classes }) => (
   <div className={classes.holder}>
     <svg className={classes.github} focusable="false" viewBox="0 0 24 24">
@@ -27,14 +27,14 @@ const Github = withStyles(theme => ({
   </div>
 ));
 
-const History = withStyles(theme => ({
+const History = withStyles((theme) => ({
   history: {
     padding: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
     width: '60%',
     overflow: 'scroll',
-    height: '300px'
-  }
+    height: '300px',
+  },
 }))(({ classes, history }) => (
   <Paper className={classes.history}>
     <Typography type="title">History</Typography>
@@ -43,26 +43,22 @@ const History = withStyles(theme => ({
 ));
 
 const Pre = ({ data, className }) => (
-  <pre className={className}>
-    {JSON.stringify(data, null, '  ')}
-  </pre>
+  <pre className={className}>{JSON.stringify(data, null, '  ')}</pre>
 );
 
 class DemoCalc extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
-      history: []
-    }
+      history: [],
+    };
   }
 
   onEvaluationComplete = (expression, result) => {
     const { history } = this.state;
     history.push({ expression, result });
     this.setState({ history });
-  }
+  };
 
   render() {
     const { mode, classes } = this.props;
@@ -73,7 +69,8 @@ class DemoCalc extends React.Component {
         <div className={classes.row}>
           <Calculator
             mode={mode}
-            onEvaluationComplete={this.onEvaluationComplete} />
+            onEvaluationComplete={this.onEvaluationComplete}
+          />
           <History history={this.state.history} />
         </div>
       </div>
@@ -81,90 +78,84 @@ class DemoCalc extends React.Component {
   }
 }
 
-const StyledDemoCalc = withStyles(theme => ({
+const StyledDemoCalc = withStyles((theme) => ({
   root: {
     paddingTop: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 3
+    paddingBottom: theme.spacing.unit * 3,
   },
   pre: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   row: {
-    display: 'flex'
-  }
+    display: 'flex',
+  },
 }))(DemoCalc);
 
 class Demo extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      history: []
-    }
+      history: [],
+    };
   }
 
-  onSelectionChange = selection => {
-
+  onSelectionChange = (selection) => {
     this.setState({
       selectable: {
         value: this.state.selectable.value,
         selectionStart: selection.selectionStart,
-        selectionEnd: selection.selectionEnd
-      }
-    })
-  }
+        selectionEnd: selection.selectionEnd,
+      },
+    });
+  };
 
-  onChange = event => {
+  onChange = (event) => {
     const selectable = {
       value: event.target.value,
       selectionStart: event.target.selectionStart,
-      selectionEnd: event.target.selectionEnd
-    }
+      selectionEnd: event.target.selectionEnd,
+    };
     log('[onChange] update - selectable ', selectable);
     this.setState({ selectable });
-  }
+  };
 
   onEvaluationComplete = (expression, result) => {
     this.state.history.push({ expression, result });
     this.setState({ history: this.state.history });
-  }
+  };
 
   onGithubClick = () => {
-    window.location.href = 'https://github.com/pie-framework/material-ui-calculator';
-  }
+    window.location.href =
+      'https://github.com/pie-framework/material-ui-calculator';
+  };
 
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-        <div className={classes.topRow}>
-          <Typography type="display3">material-ui-calculator</Typography>
-          <IconButton onClick={this.onGithubClick}><Github /></IconButton>
-        </div>
         <div className={classes.demo}>
           <StyledDemoCalc mode="basic" />
-          <StyledDemoCalc mode="scientific" />
         </div>
       </div>
-    )
+    );
   }
 }
 
-const Styled = withStyles(theme => ({
+const Styled = withStyles((theme) => ({
   topRow: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   root: {
     padding: theme.spacing.unit,
     width: '1024px',
-    margin: '0 auto'
+    margin: '0 auto',
   },
   demo: {
-    paddingTop: theme.spacing.unit
-  }
+    paddingTop: theme.spacing.unit,
+  },
 }))(Demo);
 const el = React.createElement(Styled, {});
 ReactDOM.render(el, document.querySelector('#app'));

@@ -5,32 +5,41 @@ import classNames from 'classnames';
 import Pad from './pad';
 
 const items = [
-  { label: 'C', value: 'clear' },
-  { label: '±', value: 'plus-minus' },
+  { label: 'C', value: 'clear', kind: 'operator' },
+  { label: 'C', value: 'clear', kind: 'operator' },
+  { label: '±', value: 'plus-minus', kind: 'operator' },
+  { label: '<', value: 'backspace', kind: 'operator' },
+
+  '(',
+  ')',
   '%',
   { label: '&#247;', value: '/', kind: 'operator' },
+
   '7',
   '8',
   '9',
   { label: '&#215;', value: '*', kind: 'operator' },
+
   '4',
   '5',
   '6',
   { label: '-', value: '-', kind: 'operator' },
+
   '1',
   '2',
   '3',
   { label: '+', value: '+', kind: 'operator' },
+
   '0',
   '.',
-  { label: '=', value: 'equals', kind: 'operator' }
+  { label: '=', value: 'equals', kind: 'operator' },
 ];
 
 export class Basic extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInput: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
   };
 
   render() {
@@ -45,7 +54,7 @@ export class Basic extends React.Component {
           const positionStyle =
             props.label === '0'
               ? {
-                  gridColumn: '1/3'
+                  gridColumn: '1/3',
                 }
               : {};
 
@@ -54,7 +63,7 @@ export class Basic extends React.Component {
               key={index}
               style={positionStyle}
               theme={{
-                root: classes[i.kind]
+                root: classes[i.kind],
               }}
               {...props}
               onClick={onInput}
@@ -66,15 +75,15 @@ export class Basic extends React.Component {
   }
 }
 
-export default withStyles(theme => ({
+export default withStyles((theme) => ({
   pad: {
     flex: 0.5,
     gridGap: '1px',
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)'
+    gridTemplateColumns: 'repeat(4, 1fr)',
   },
   operator: {
-    backgroundColor: theme.palette.secondary.light
-  }
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
 }))(Basic);

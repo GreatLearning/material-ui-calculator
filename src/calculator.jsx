@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debug from 'debug';
 import SelectableInput from './selectable-input';
-import Scientific from './scientific';
 import { insertAt } from './utils';
 import { handleInput } from './math-input';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,7 +23,7 @@ export class Calculator extends React.Component {
     error: PropTypes.object,
     onClearError: PropTypes.func,
     classes: PropTypes.object.isRequired,
-    mode: PropTypes.oneOf(['basic', 'scientific'])
+    mode: PropTypes.oneOf(['basic', 'scientific']),
   };
 
   constructor(props) {
@@ -32,7 +31,7 @@ export class Calculator extends React.Component {
     this.state = {
       expr: props.expr,
       selectionStart: 0,
-      selectionEnd: 0
+      selectionEnd: 0,
     };
   }
 
@@ -49,29 +48,29 @@ export class Calculator extends React.Component {
       this.setState({
         expr,
         selectionStart: expr.length,
-        selectionEnd: expr.length
+        selectionEnd: expr.length,
       });
     }
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.props.onClearError();
     this.setState({
       expr: e.target.value,
       selectionStart: e.target.selectionStart,
       selectionEnd: e.target.selectionEnd,
-      superscript: e.target.superscript
+      superscript: e.target.superscript,
     });
   };
 
-  onSelectionChange = update => {
+  onSelectionChange = (update) => {
     this.setState({
       selectionStart: update.selectionStart,
-      selectionEnd: update.selectionEnd
+      selectionEnd: update.selectionEnd,
     });
   };
 
-  onInput = value => {
+  onInput = (value) => {
     log('[onInput]: ', value);
     const { expr, selectionStart, selectionEnd, superscript } = this.state;
 
@@ -100,14 +99,14 @@ export class Calculator extends React.Component {
           ),
           selectionStart: selectionStart + value.length,
           selectionEnd: selectionEnd + value.length,
-          superscript
+          superscript,
         });
       } else {
         this.setState({
           expr: result.value,
           selectionStart: result.selectionStart,
           selectionEnd: result.selectionEnd,
-          superscript: result.superscript
+          superscript: result.superscript,
         });
       }
     }
@@ -122,7 +121,7 @@ export class Calculator extends React.Component {
     this.setState({ focused: false });
   };
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (
       e.key === 'ArrowRight' ||
       e.key === 'ArrowLeft' ||
@@ -169,20 +168,15 @@ export class Calculator extends React.Component {
         expr: result.value,
         selectionStart: result.selectionStart,
         selectionEnd: result.selectionEnd,
-        superscript: result.superscript
+        superscript: result.superscript,
       });
     }
   };
 
   render() {
-    const { classes, mode, angleMode, onAngleModeChange, error } = this.props;
-    const {
-      expr,
-      selectionStart,
-      selectionEnd,
-      superscript,
-      focused
-    } = this.state;
+    const { classes, mode, error } = this.props;
+    const { expr, selectionStart, selectionEnd, superscript, focused } =
+      this.state;
 
     const names = classNames(
       classes.calculator,
@@ -192,16 +186,10 @@ export class Calculator extends React.Component {
     );
     return (
       <div className={names}>
-        <Display
-          angleMode={angleMode}
-          showAngleMode={mode === 'scientific'}
-          onAngleModeChange={onAngleModeChange}
-          focused={focused}
-          error={error}
-        >
+        <Display focused={focused} error={error}>
           <SelectableInput
             className={classes.selectableInput}
-            inputRef={r => (this.input = r)}
+            inputRef={(r) => (this.input = r)}
             onChange={this.onChange}
             onSelectionChange={this.onSelectionChange}
             value={expr}
@@ -213,19 +201,12 @@ export class Calculator extends React.Component {
             superscript={superscript}
             theme={{
               root: classes.root,
-              input: classNames(classes.input, error && classes.inputError)
+              input: classNames(classes.input, error && classes.inputError),
             }}
           />
         </Display>
         <div className={classes.padHolder}>
-          <Basic
-            className={classNames(
-              classes.basic,
-              mode === 'basic' && classes.onlyBasic
-            )}
-            onInput={this.onInput}
-          />
-          {mode === 'scientific' && <Scientific onInput={this.onInput} />}
+          <Basic className={classes.basic} onInput={this.onInput} />
         </div>
       </div>
     );
@@ -234,35 +215,37 @@ export class Calculator extends React.Component {
 
 export default withStyles(() => ({
   calculator: {
-    backgroundColor: 'white'
+    backgroundColor: '#070d17',
+    color: 'white',
   },
   basicCalculator: {
-    maxWidth: '300px'
+    maxWidth: '300px',
   },
   scientificCalculator: {
-    maxWidth: '600px'
+    maxWidth: '600px',
   },
   selectableInput: {
-    width: '100%'
+    width: '100%',
+    backgroundColor: 'transparent',
   },
   root: {
-    width: '100%'
+    width: '100%',
   },
   input: {
     width: '100%',
+    color: 'white',
     fontSize: '40px',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   inputError: {
-    color: colors.error
+    color: colors.error,
   },
   padHolder: {
-    display: 'flex'
+    display: 'flex',
+    color: 'inherit',
   },
   basic: {
-    color: 'green'
+    color: 'inherit',
+    flex: '1',
   },
-  onlyBasic: {
-    flex: '1'
-  }
 }))(Calculator);
