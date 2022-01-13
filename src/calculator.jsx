@@ -16,14 +16,11 @@ const log = debug('@pie-framework:material-ui-calculator');
 
 export class Calculator extends React.Component {
   static propTypes = {
-    angleMode: PropTypes.oneOf(['deg', 'rad']).isRequired,
-    onAngleModeChange: PropTypes.func.isRequired,
     expr: PropTypes.string.isRequired,
     onEvaluate: PropTypes.func.isRequired,
     error: PropTypes.object,
     onClearError: PropTypes.func,
     classes: PropTypes.object.isRequired,
-    mode: PropTypes.oneOf(['basic', 'scientific']),
   };
 
   constructor(props) {
@@ -174,16 +171,11 @@ export class Calculator extends React.Component {
   };
 
   render() {
-    const { classes, mode, error } = this.props;
+    const { classes, error } = this.props;
     const { expr, selectionStart, selectionEnd, superscript, focused } =
       this.state;
 
-    const names = classNames(
-      classes.calculator,
-      mode === 'scientific'
-        ? classes.scientificCalculator
-        : classes.basicCalculator
-    );
+    const names = classNames(classes.calculator, classes.basicCalculator);
     return (
       <div className={names}>
         <Display focused={focused} error={error}>
@@ -217,24 +209,24 @@ export default withStyles(() => ({
   calculator: {
     backgroundColor: '#070d17',
     color: 'white',
-  },
-  basicCalculator: {
-    maxWidth: '300px',
-  },
-  scientificCalculator: {
-    maxWidth: '600px',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '12px',
   },
   selectableInput: {
     width: '100%',
+    height: '100%',
     backgroundColor: 'transparent',
   },
   root: {
     width: '100%',
+    height: '100%',
   },
   input: {
     width: '100%',
+    height: '100%',
     color: 'white',
-    fontSize: '40px',
+    fontSize: 'min(10vh, 100px)',
     textAlign: 'right',
   },
   inputError: {
@@ -243,9 +235,10 @@ export default withStyles(() => ({
   padHolder: {
     display: 'flex',
     color: 'inherit',
+    flexGrow: 1,
   },
   basic: {
     color: 'inherit',
-    flex: '1',
+    flexGrow: 1,
   },
 }))(Calculator);

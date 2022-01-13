@@ -8,17 +8,17 @@ const items = [
   { label: 'C', value: 'clear', kind: 'operator' },
   { label: 'C', value: 'clear', kind: 'operator' },
   { label: '±', value: 'plus-minus', kind: 'operator' },
-  { label: '<', value: 'backspace', kind: 'operator' },
+  { label: '←', value: 'backspace', kind: 'operator' },
 
   '(',
   ')',
   '%',
-  { label: '&#247;', value: '/', kind: 'operator' },
+  { label: '÷', value: '/', kind: 'operator' },
 
   '7',
   '8',
   '9',
-  { label: '&#215;', value: '*', kind: 'operator' },
+  { label: '×', value: '*', kind: 'operator' },
 
   '4',
   '5',
@@ -78,7 +78,7 @@ export class Basic extends React.Component {
 export default withStyles((theme) => ({
   pad: {
     flex: 0.5,
-    gridGap: '1px',
+    gridGap: '4px',
     width: '100%',
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',

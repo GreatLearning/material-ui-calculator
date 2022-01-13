@@ -41,6 +41,9 @@ const styles = (theme) => ({
     position: 'relative',
     boxShadow: '0 3px 3px rgba(0, 0, 0, 0.1)',
     border: 'solid 1px rgba(255,255,255,0)',
+    borderRadius: '4px',
+    minHeight: '128px',
+    marginBottom: '12px',
   },
   focused: {
     border: 'solid 1px rgba(255,255,255,1.0)',
