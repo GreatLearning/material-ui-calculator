@@ -6,32 +6,30 @@ import Pad from './pad';
 
 const items = [
   { label: 'C', value: 'clear', kind: 'operator' },
-  { label: 'C', value: 'clear', kind: 'operator' },
-  { label: '±', value: 'plus-minus', kind: 'operator' },
   { label: '←', value: 'backspace', kind: 'operator' },
-
-  '(',
-  ')',
-  '%',
+  { label: '±', value: 'plus-minus', kind: 'operator' },
   { label: '÷', value: '/', kind: 'operator' },
-
-  '7',
-  '8',
-  '9',
+  { label: '(', value: '(' },
+  { label: ')', value: ')' },
+  { label: '%', value: '%' },
   { label: '×', value: '*', kind: 'operator' },
 
-  '4',
-  '5',
-  '6',
+  { label: '7', value: '7' },
+  { label: '8', value: '8' },
+  { label: '9', value: '9' },
   { label: '-', value: '-', kind: 'operator' },
 
-  '1',
-  '2',
-  '3',
+  { label: '4', value: '4' },
+  { label: '5', value: '5' },
+  { label: '6', value: '6' },
   { label: '+', value: '+', kind: 'operator' },
 
-  '0',
-  '.',
+  { label: '1', value: '1' },
+  { label: '2', value: '2' },
+  { label: '3', value: '3' },
+
+  { label: '0', value: '0' },
+  { label: '.', value: '.' },
   { label: '=', value: 'equals', kind: 'operator' },
 ];
 
@@ -50,13 +48,13 @@ export class Basic extends React.Component {
     return (
       <div className={names}>
         {items.map((i, index) => {
-          const props = typeof i === 'string' ? { label: i, value: i } : i;
-          const positionStyle =
-            props.label === '0'
-              ? {
-                  gridColumn: '1/3',
-                }
-              : {};
+          let positionStyle = {};
+          if (i.label === '0') positionStyle = { gridColumn: '1/3' };
+          else if (i.label === '=')
+            positionStyle = {
+              gridRow: '5/7',
+              gridColumn: '4/5',
+            };
 
           return (
             <Pad
@@ -65,7 +63,7 @@ export class Basic extends React.Component {
               theme={{
                 root: classes[i.kind],
               }}
-              {...props}
+              {...i}
               onClick={onInput}
             />
           );

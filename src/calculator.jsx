@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debug from 'debug';
 import SelectableInput from './selectable-input';
+import Scientific from './scientific';
 import { insertAt } from './utils';
 import { handleInput } from './math-input';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,11 +17,14 @@ const log = debug('@pie-framework:material-ui-calculator');
 
 export class Calculator extends React.Component {
   static propTypes = {
+    angleMode: PropTypes.oneOf(['deg', 'rad']).isRequired,
+    onAngleModeChange: PropTypes.func.isRequired,
     expr: PropTypes.string.isRequired,
     onEvaluate: PropTypes.func.isRequired,
     error: PropTypes.object,
     onClearError: PropTypes.func,
     classes: PropTypes.object.isRequired,
+    mode: PropTypes.oneOf(['basic', 'scientific']),
   };
 
   constructor(props) {
@@ -171,14 +175,25 @@ export class Calculator extends React.Component {
   };
 
   render() {
-    const { classes, error } = this.props;
+    const { classes, mode, angleMode, onAngleModeChange, error } = this.props;
     const { expr, selectionStart, selectionEnd, superscript, focused } =
       this.state;
 
-    const names = classNames(classes.calculator, classes.basicCalculator);
+    const names = classNames(
+      classes.calculator,
+      mode === 'scientific'
+        ? classes.scientificCalculator
+        : classes.basicCalculator
+    );
     return (
       <div className={names}>
-        <Display focused={focused} error={error}>
+        <Display
+          angleMode={angleMode}
+          showAngleMode={mode === 'scientific'}
+          onAngleModeChange={onAngleModeChange}
+          focused={focused}
+          error={error}
+        >
           <SelectableInput
             className={classes.selectableInput}
             inputRef={(r) => (this.input = r)}
@@ -198,7 +213,14 @@ export class Calculator extends React.Component {
           />
         </Display>
         <div className={classes.padHolder}>
-          <Basic className={classes.basic} onInput={this.onInput} />
+          <Basic
+            className={classNames(
+              classes.basic,
+              mode === 'basic' && classes.onlyBasic
+            )}
+            onInput={this.onInput}
+          />
+          {mode === 'scientific' && <Scientific onInput={this.onInput} />}
         </div>
       </div>
     );
