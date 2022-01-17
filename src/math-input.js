@@ -16,59 +16,59 @@ const map = {
   6: '⁶',
   7: '⁷',
   8: '⁸',
-  9: '⁹'
+  9: '⁹',
 };
 
-const fn = n => ({
+const fn = (n) => ({
   match: n,
-  emit: `${n}(|)`
+  emit: `${n}(|)`,
 });
 
 const INPUTS = [
   {
     match: /^[\+\-\(\)]$/, //eslint-disable-line
-    passthrough: true
+    passthrough: true,
   },
   {
     match: /^e$/,
-    passthrough: true
+    passthrough: true,
   },
   {
     match: /\./,
-    passthrough: true
+    passthrough: true,
   },
   {
     match: '1/x',
-    emit: '1/[x]'
+    emit: '1/[x]',
   },
   {
     match: /[0-9]/,
-    passthrough: true
+    passthrough: true,
   },
   {
     match: 'π',
-    emit: 'π'
+    emit: 'π',
   },
   {
     match: '*',
-    emit: '×'
+    emit: '×',
   },
   {
     match: ['sqrt', '√'],
-    emit: '√(|)'
+    emit: '√(|)',
   },
   {
     match: '^',
     emit: '[ʸ]',
-    superscript: /[0-9]/
+    superscript: /[0-9]/,
   },
   {
     match: 'square',
-    emit: map[2]
+    emit: map[2],
   },
   {
     match: 'cube',
-    emit: map[3]
+    emit: map[3],
   },
   fn('sin'),
   fn('cos'),
@@ -81,20 +81,20 @@ const INPUTS = [
   fn('abs'),
   {
     match: '%',
-    emit: '%'
+    emit: '%',
   },
   {
     match: '!',
-    emit: '!'
+    emit: '!',
   },
   {
     match: 'ʸ√x',
     emit: '[ʸ]√',
-    superscript: /[0-9]/
+    superscript: /[0-9]/,
   },
   {
     match: '/',
-    emit: '÷'
+    emit: '÷',
   },
   {
     match: 'clear',
@@ -102,9 +102,33 @@ const INPUTS = [
       expr: '',
       position: {
         start: 0,
-        end: 0
+        end: 0,
+      },
+    }),
+  },
+  {
+    match: 'backspace',
+    emit: (expr, position) => {
+      const { start, end } = position;
+      if (start <= 0 || end <= 0) {
+        return {
+          expr,
+          position: {
+            start,
+            end,
+          },
+        };
       }
-    })
+
+      const update = expr.slice(0, start - 1) + expr.slice(end);
+      return {
+        expr: update,
+        position: {
+          start: start - 1,
+          end: end - 1,
+        },
+      };
+    },
   },
   {
     match: 'plus-minus',
@@ -115,14 +139,14 @@ const INPUTS = [
         expr: update,
         position: {
           start: position.start + (added ? 1 : -1),
-          end: position.end + (added ? 1 : -1)
-        }
+          end: position.end + (added ? 1 : -1),
+        },
       };
-    }
-  }
+    },
+  },
 ];
 
-const getSuperscript = char => map[char];
+const getSuperscript = (char) => map[char];
 
 const buildUpdate = (value, start, end, emit) => {
   const result = select(emit);
@@ -133,14 +157,14 @@ const buildUpdate = (value, start, end, emit) => {
   return {
     update: valueUpdate,
     start: start + result.start,
-    end: start + result.end
+    end: start + result.end,
   };
 };
 
 const isMatch = (match, input) => {
   const m = Array.isArray(match) ? match : [match];
 
-  const matches = m => {
+  const matches = (m) => {
     if (m instanceof RegExp) {
       log('test input: ', input, ' with regex:', m.toString());
       return m.test(input);
@@ -178,31 +202,31 @@ export const handleInput = (
         value: update,
         selectionStart: update.length,
         selectionEnd: update.length,
-        superscript
+        superscript,
       };
     }
   }
 
-  const handler = INPUTS.find(v => isMatch(v.match, input));
+  const handler = INPUTS.find((v) => isMatch(v.match, input));
 
   if (handler) {
     log('[handleInput] handler: ', handler);
 
     if (handler.passthrough) {
       return {
-        passthrough: true
+        passthrough: true,
       };
     } else {
       if (isFunction(handler.emit)) {
         const o = handler.emit(value, {
           start: selectionStart,
-          end: selectionEnd
+          end: selectionEnd,
         });
         return {
           value: o.expr,
           selectionStart: o.position.start,
           selectionEnd: o.position.end,
-          superscript: o.superscript || superscript
+          superscript: o.superscript || superscript,
         };
       } else {
         const { update, start, end } = buildUpdate(
@@ -215,7 +239,7 @@ export const handleInput = (
           value: update,
           selectionStart: start,
           selectionEnd: end,
-          superscript: handler.superscript
+          superscript: handler.superscript,
         };
       }
     }

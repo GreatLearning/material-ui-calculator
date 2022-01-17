@@ -24,7 +24,7 @@ export class Calculator extends React.Component {
     error: PropTypes.object,
     onClearError: PropTypes.func,
     classes: PropTypes.object.isRequired,
-    mode: PropTypes.oneOf(['basic', 'scientific'])
+    mode: PropTypes.oneOf(['basic', 'scientific']),
   };
 
   constructor(props) {
@@ -32,7 +32,7 @@ export class Calculator extends React.Component {
     this.state = {
       expr: props.expr,
       selectionStart: 0,
-      selectionEnd: 0
+      selectionEnd: 0,
     };
   }
 
@@ -49,29 +49,29 @@ export class Calculator extends React.Component {
       this.setState({
         expr,
         selectionStart: expr.length,
-        selectionEnd: expr.length
+        selectionEnd: expr.length,
       });
     }
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.props.onClearError();
     this.setState({
       expr: e.target.value,
       selectionStart: e.target.selectionStart,
       selectionEnd: e.target.selectionEnd,
-      superscript: e.target.superscript
+      superscript: e.target.superscript,
     });
   };
 
-  onSelectionChange = update => {
+  onSelectionChange = (update) => {
     this.setState({
       selectionStart: update.selectionStart,
-      selectionEnd: update.selectionEnd
+      selectionEnd: update.selectionEnd,
     });
   };
 
-  onInput = value => {
+  onInput = (value) => {
     log('[onInput]: ', value);
     const { expr, selectionStart, selectionEnd, superscript } = this.state;
 
@@ -100,14 +100,14 @@ export class Calculator extends React.Component {
           ),
           selectionStart: selectionStart + value.length,
           selectionEnd: selectionEnd + value.length,
-          superscript
+          superscript,
         });
       } else {
         this.setState({
           expr: result.value,
           selectionStart: result.selectionStart,
           selectionEnd: result.selectionEnd,
-          superscript: result.superscript
+          superscript: result.superscript,
         });
       }
     }
@@ -122,7 +122,7 @@ export class Calculator extends React.Component {
     this.setState({ focused: false });
   };
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (
       e.key === 'ArrowRight' ||
       e.key === 'ArrowLeft' ||
@@ -169,20 +169,15 @@ export class Calculator extends React.Component {
         expr: result.value,
         selectionStart: result.selectionStart,
         selectionEnd: result.selectionEnd,
-        superscript: result.superscript
+        superscript: result.superscript,
       });
     }
   };
 
   render() {
     const { classes, mode, angleMode, onAngleModeChange, error } = this.props;
-    const {
-      expr,
-      selectionStart,
-      selectionEnd,
-      superscript,
-      focused
-    } = this.state;
+    const { expr, selectionStart, selectionEnd, superscript, focused } =
+      this.state;
 
     const names = classNames(
       classes.calculator,
@@ -201,7 +196,7 @@ export class Calculator extends React.Component {
         >
           <SelectableInput
             className={classes.selectableInput}
-            inputRef={r => (this.input = r)}
+            inputRef={(r) => (this.input = r)}
             onChange={this.onChange}
             onSelectionChange={this.onSelectionChange}
             value={expr}
@@ -213,7 +208,7 @@ export class Calculator extends React.Component {
             superscript={superscript}
             theme={{
               root: classes.root,
-              input: classNames(classes.input, error && classes.inputError)
+              input: classNames(classes.input, error && classes.inputError),
             }}
           />
         </Display>
@@ -234,35 +229,46 @@ export class Calculator extends React.Component {
 
 export default withStyles(() => ({
   calculator: {
-    backgroundColor: 'white'
-  },
-  basicCalculator: {
-    maxWidth: '300px'
-  },
-  scientificCalculator: {
-    maxWidth: '600px'
+    backgroundColor: '#070d17',
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: 'inherit',
+    padding: '4px',
   },
   selectableInput: {
-    width: '100%'
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'transparent',
+    fontSize: 'inherit',
   },
   root: {
-    width: '100%'
+    width: 'inherit',
+    maxWidth: '100%',
+    height: '100%',
+    fontSize: 'inherit',
   },
   input: {
     width: '100%',
-    fontSize: '40px',
-    textAlign: 'right'
+    height: '100%',
+    color: 'white',
+    fontSize: '2.5rem',
+    textAlign: 'right',
   },
   inputError: {
-    color: colors.error
+    color: colors.error,
   },
   padHolder: {
-    display: 'flex'
+    display: 'flex',
+    color: 'inherit',
+    fontSize: 'inherit',
+    flexGrow: 1,
   },
   basic: {
-    color: 'green'
+    color: 'inherit',
+    fontSize: 'inherit',
+    flexGrow: 1,
+    width: '100%',
+    height: '100%',
   },
-  onlyBasic: {
-    flex: '1'
-  }
 }))(Calculator);

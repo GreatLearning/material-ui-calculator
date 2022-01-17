@@ -5,32 +5,39 @@ import classNames from 'classnames';
 import Pad from './pad';
 
 const items = [
-  { label: 'C', value: 'clear' },
-  { label: '±', value: 'plus-minus' },
-  '%',
-  { label: '&#247;', value: '/', kind: 'operator' },
-  '7',
-  '8',
-  '9',
-  { label: '&#215;', value: '*', kind: 'operator' },
-  '4',
-  '5',
-  '6',
+  { label: 'C', value: 'clear', kind: 'operator' },
+  { label: '←', value: 'backspace', kind: 'operator' },
+  { label: '±', value: 'plus-minus', kind: 'operator' },
+  { label: '÷', value: '/', kind: 'operator' },
+  { label: '(', value: '(' },
+  { label: ')', value: ')' },
+  { label: '%', value: '%' },
+  { label: '×', value: '*', kind: 'operator' },
+
+  { label: '7', value: '7' },
+  { label: '8', value: '8' },
+  { label: '9', value: '9' },
   { label: '-', value: '-', kind: 'operator' },
-  '1',
-  '2',
-  '3',
+
+  { label: '4', value: '4' },
+  { label: '5', value: '5' },
+  { label: '6', value: '6' },
   { label: '+', value: '+', kind: 'operator' },
-  '0',
-  '.',
-  { label: '=', value: 'equals', kind: 'operator' }
+
+  { label: '1', value: '1' },
+  { label: '2', value: '2' },
+  { label: '3', value: '3' },
+
+  { label: '0', value: '0' },
+  { label: '.', value: '.' },
+  { label: '=', value: 'equals', kind: 'operator' },
 ];
 
 export class Basic extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInput: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
   };
 
   render() {
@@ -41,22 +48,22 @@ export class Basic extends React.Component {
     return (
       <div className={names}>
         {items.map((i, index) => {
-          const props = typeof i === 'string' ? { label: i, value: i } : i;
-          const positionStyle =
-            props.label === '0'
-              ? {
-                  gridColumn: '1/3'
-                }
-              : {};
+          let positionStyle = {};
+          if (i.label === '0') positionStyle = { gridColumn: '1/3' };
+          else if (i.label === '=')
+            positionStyle = {
+              gridRow: '5/7',
+              gridColumn: '4/5',
+            };
 
           return (
             <Pad
               key={index}
               style={positionStyle}
               theme={{
-                root: classes[i.kind]
+                root: classes[i.kind],
               }}
-              {...props}
+              {...i}
               onClick={onInput}
             />
           );
@@ -66,15 +73,16 @@ export class Basic extends React.Component {
   }
 }
 
-export default withStyles(theme => ({
+export default withStyles((theme) => ({
   pad: {
     flex: 0.5,
-    gridGap: '1px',
+    gridGap: '4px',
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)'
+    fontSize: 'inherit',
+    gridTemplateColumns: 'repeat(4, 1fr)',
   },
   operator: {
-    backgroundColor: theme.palette.secondary.light
-  }
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
 }))(Basic);

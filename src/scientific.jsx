@@ -26,14 +26,14 @@ const items = [
   { label: 'x<sup>y</sup>', value: '^' },
   Inputs.FRACTION,
   Inputs.EXPONENT,
-  UnaryInput.ABS
+  UnaryInput.ABS,
 ];
 
 export class Scientific extends React.Component {
   static propTypes = {
     onInput: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    activeMode: PropTypes.oneOf(['deg', 'rad'])
+    activeMode: PropTypes.oneOf(['deg', 'rad']),
   };
 
   render() {
@@ -47,10 +47,9 @@ export class Scientific extends React.Component {
             <Pad
               theme={{
                 root: classNames(
-                  classes.pad,
                   i && classes[i.kind],
                   active && classes.active
-                )
+                ),
               }}
               active={props.label === activeMode}
               onClick={onInput}
@@ -72,11 +71,8 @@ const styles = () => ({
     display: 'grid',
     gridGap: '1px',
     flex: 0.5,
-    gridTemplateColumns: 'repeat(4, 1fr)'
+    gridTemplateColumns: 'repeat(4, 1fr)',
   },
-  pad: {
-    backgroundColor: colors.secondary.light
-  }
 });
 
 export default withStyles(styles)(Scientific);
