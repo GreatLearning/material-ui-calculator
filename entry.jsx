@@ -39,12 +39,20 @@ class DemoCalc extends React.Component {
   };
 
   render() {
-    /* <History history={this.state.history} /> */
     return (
-      <Calculator
-        mode="basic"
-        onEvaluationComplete={this.onEvaluationComplete}
-      />
+      <div
+        style={{
+          background: 'red',
+          maxWidth: '300px',
+          height: 'auto',
+          fontSize: '1.5rem',
+        }}
+      >
+        <Calculator
+          mode="basic"
+          onEvaluationComplete={this.onEvaluationComplete}
+        />
+      </div>
     );
   }
 }

@@ -233,22 +233,26 @@ export default withStyles(() => ({
     color: 'white',
     display: 'flex',
     flexDirection: 'column',
-    padding: '12px',
+    fontSize: 'inherit',
+    padding: '4px',
   },
   selectableInput: {
     width: '100%',
     height: '100%',
     backgroundColor: 'transparent',
+    fontSize: 'inherit',
   },
   root: {
-    width: '100%',
+    width: 'inherit',
+    maxWidth: '100%',
     height: '100%',
+    fontSize: 'inherit',
   },
   input: {
     width: '100%',
     height: '100%',
     color: 'white',
-    fontSize: 'min(10vh, 100px)',
+    fontSize: '2.5rem',
     textAlign: 'right',
   },
   inputError: {
@@ -257,10 +261,14 @@ export default withStyles(() => ({
   padHolder: {
     display: 'flex',
     color: 'inherit',
+    fontSize: 'inherit',
     flexGrow: 1,
   },
   basic: {
     color: 'inherit',
+    fontSize: 'inherit',
     flexGrow: 1,
+    width: '100%',
+    height: '100%',
   },
 }))(Calculator);

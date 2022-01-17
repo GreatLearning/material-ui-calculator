@@ -79,6 +79,7 @@ export default withStyles((theme) => ({
     gridGap: '4px',
     width: '100%',
     display: 'grid',
+    fontSize: 'inherit',
     gridTemplateColumns: 'repeat(4, 1fr)',
   },
   operator: {

@@ -37,6 +37,7 @@ export default withStyles(() => {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: '4px',
+      fontSize: 'inherit',
     },
     button: {
       color: 'inherit',
@@ -45,7 +46,7 @@ export default withStyles(() => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      fontSize: '2rem',
+      fontSize: 'inherit',
     },
   };
 })(Pad);
